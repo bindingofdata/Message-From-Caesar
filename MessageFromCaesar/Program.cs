@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace MessageFromCaesar
 {
@@ -34,7 +34,7 @@ namespace MessageFromCaesar
         #region General
         private static bool MainMenu ()
         {
-            Console.WriteLine( "String and File En/Decryptor" );
+            Console.WriteLine( "String and File Encryptor and Decryptor" );
             Console.WriteLine( "Please make a selection: " );
             Console.WriteLine( "1. Encrypt Text" );
             Console.WriteLine( "2. Encrypt File(s)" );
@@ -78,9 +78,27 @@ namespace MessageFromCaesar
 
         private static void PlayIntro ()
         {
-            Console.WriteLine( "String and File En/Decryptor" );
+            Random random = new Random();
+            int encryptionKey = random.Next( 101 );
+            string baseTitle = "String and File Encryptor and Decryptor";
+            string encryptedTitle = Caesar.EncryptText( baseTitle, encryptionKey, true );
+            char[] animatedTitle = encryptedTitle.ToCharArray();
+            string displayTitle = new string(animatedTitle);
+
+            Console.Write( displayTitle );
+
+            Console.CursorVisible = false;
+            for ( int i = 0; i < animatedTitle.Length; i++ )
+            {
+                Thread.Sleep( 50 );
+                animatedTitle[i] = baseTitle[i];
+                displayTitle = new string( animatedTitle );
+                Console.Clear();
+                Console.Write( displayTitle );
+            }
 
             Console.Clear();
+            Console.CursorVisible = true;
         }
 
         #region Help
